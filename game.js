@@ -12,13 +12,13 @@ var questions = [
     questionOne = {
         question: "In what year did British prospectors find oil in Iran?",
         answers: {
-            a: "1908",
-            b: "1892",
-            c: "1900",
-            d: "1952"
+            A: "1908",
+            B: "1892",
+            C: "1900",
+            D: "1952"
         },
         correctAnswer: function (){
-            return this.answers.c
+            return this.answers.C
         },
         questionGif: "anglo-persian.jpg"
     },
@@ -26,15 +26,14 @@ var questions = [
     questionTwo = {
         question: "After the British discovered oil, where did they build their refinery?",
         answers: {
-            a: "Tehran",
-            b: "Abadan",
-            c: "Shiraz",
-            d: "Tabriz"
+            A: "Tehran",
+            B: "Abadan",
+            C: "Shiraz",
+            D: "Tabriz"
         },
         correctAnswer: function (){
-            return this.answers.b
+            return this.answers.B
         },
-        isCorrect: checkAnswer(),
         questionGif: "anglo-persian.jpg"
     },
 
@@ -76,14 +75,33 @@ function startGame() {
     //if the start game or new game button is clicked, reset gamestate's current question and correct answers values, then change current screen to first question
     gameState.currentQuestion = 0,
     gameState.correctAnswers = 0,
-    console.log(newQuestion());
+    newQuestion();
 
 };
 
 
 function newQuestion () {
     //when it's time to show a new question, display the current question on the screen in the question box, start the timer, and display all the question's answers in the answer box.
+
+
     currentQuestion = (questions[gameState.currentQuestion])
+    questionHeader = ("Question " + (gameState.currentQuestion +++ 1))
+    $("#question-header").text(questionHeader)
+    $("#question-name").text(currentQuestion.question)
+    
+    var answers = Object.entries(currentQuestion.answers)
+
+    
+    for (const [letter, answer] of answers) {
+        var text = letter + " " +  answer 
+
+        $("#answer-box").append("<button class =" + letter + ">" + text + "</button>");
+        
+        $("#answer-box").append("<div></div")
+    
+    };
+
+
     return currentQuestion
 };
 
@@ -91,27 +109,33 @@ function getAnswer() {
     //when the player clicks an answer, animate the answer they clicked, and record the answer in the question object as this. If the timer ticks down to zero, record the player's answer as null.
     var playerAnswer = null;
 
-    playerAnswer = $(this).click(returnAnswerClass());
+    var question = currentQuestion;
 
-    checkAnswer(playerAnswer, currentQuestion.correctAnswer());
+    //playerAnswer = $(this).click(returnAnswerClass());
+
+    checkAnswer(playerAnswer, question.correctAnswer());
 };
 
-function checkAnswer(answer, correctAnswer){
-    //if the player's answer matches the correct answer of the current question, set that question's isCorrect property to true.
-    console.log(answer, correctAnswer);
-    if (answer == correctAnswer){
-        currentQuestion.isCorrect = true
-        trackState();
-    }
-    else 
-        currentQuestion.isCorrect = false
-        trackState();
-    return;
-};
+// function checkAnswer(answer, correctAnswer){
+//     //if the player's answer matches the correct answer of the current question, set that question's isCorrect property to true.
+//     var question = currentQuestion;
+
+//     console.log(answer, correctAnswer);
+//     if (answer == correctAnswer){
+//         question.isCorrect = true
+//         trackState();
+//         $("#answer-box").empty()
+//     }
+//     else 
+//         question.isCorrect = false
+//         trackState();
+//         $("#answer-box").empty()
+//     return;
+// };
 
 
 function trackState () {
-    //when the player answers a question, record their answer. if it's correct, add a correct answer to the game state's correct answer count and advance to the next question in the question array. If it is incorrect, don't add anything, but advance to the next question.
+    //when the player answers a question, record their answer. if it's correct, add a correct answer to the game state's correct answer count, display the correct answer screen and gif and then advance to the next question in the question array. If it is incorrect, show the incorrect answer screen and gif, then advance to the next question.
 
     if (questions[gameState.currentQuestion].isCorrect == true){
         gameState.correctAnswers ++;
