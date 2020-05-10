@@ -6,6 +6,8 @@ var gameState = {
     gamesPlayed: 0,
 };
 
+var currentQuestion = null;
+
 var questions = [
     questionOne = {
         question: "In what year did British prospectors find oil in Iran?",
@@ -18,7 +20,6 @@ var questions = [
         correctAnswer: function (){
             return this.answers.c
         },
-        playerAnswer: checkAnswer(),
         questionGif: "anglo-persian.jpg"
     },
 
@@ -33,7 +34,6 @@ var questions = [
         correctAnswer: function (){
             return this.answers.b
         },
-        playerAnswer: null,
         isCorrect: checkAnswer(),
         questionGif: "anglo-persian.jpg"
     },
@@ -83,23 +83,28 @@ function startGame() {
 
 function newQuestion () {
     //when it's time to show a new question, display the current question on the screen in the question box, start the timer, and display all the question's answers in the answer box.
-    return (questions[gameState.currentQuestion])
+    currentQuestion = (questions[gameState.currentQuestion])
+    return currentQuestion
 };
 
 function getAnswer() {
     //when the player clicks an answer, animate the answer they clicked, and record the answer in the question object as this. If the timer ticks down to zero, record the player's answer as null.
+    var playerAnswer = null;
 
+    playerAnswer = $(this).click(returnAnswerClass());
+
+    checkAnswer(playerAnswer, currentQuestion.correctAnswer());
 };
 
 function checkAnswer(answer, correctAnswer){
     //if the player's answer matches the correct answer of the current question, set that question's isCorrect property to true.
     console.log(answer, correctAnswer);
     if (answer == correctAnswer){
-        gameState.currentQuestion.isCorrect = true
+        currentQuestion.isCorrect = true
         trackState();
     }
     else 
-        gameState.currentQuestion.isCorrect = false
+        currentQuestion.isCorrect = false
         trackState();
     return;
 };
@@ -137,6 +142,16 @@ function gameOver (){
     //show game over HTML screen in viewport
 };
 
+
+function returnAnswerClass () {
+    //all of the HTML elements for a given answer will be classed with that answer's corresponding letter. That way we'll return an answer whether or not the user clicks on the answer box, or the text within the box. 
+    return $(this).class()
+}
+
+
+// function noAnswer() {
+//     return null
+// }
 
 
 //ok here's our main code flow.
