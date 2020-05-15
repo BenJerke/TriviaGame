@@ -8,6 +8,8 @@ var gameState = {
 };
 
 var isCorrect = false;
+var questionTimer = 0;
+var remainingTime = 20;
 
 var questions = [
     questionOne = {
@@ -83,19 +85,31 @@ function newQuestion () {
     $("#answer3").text(answers[2]);
     $("#answer4").text(answers[3]);
 
+    startQuestionTimer()
 };
 
-// function startTimer () {
 
-// };
 
-// function resetTimer () {
+ function startQuestionTimer () {
+    questionTimer = setTimeout (checkAnswer(null, currentQuestion.correctAnswer), 5000) //run the check answer routine if 20 seconds go by with no answer
+    setInterval(decreaseTime, 1000)
+    $("#question-timer").text(remainingTime)
 
-// };
+};
+
+function decreaseTime() {
+    remainingTime--;
+}
+
+function stopQuestionTimer () {
+    clearTimeout(questionTimer)
+    remainingTime = 20;
+};
 
 
 function onAnswer(answer) {
-    //when the player clicks an answer, animate the answer they clicked, and record the answer in the question object as this. If the timer ticks down to zero, record the player's answer as null.
+    //when the player clicks an answer, animate the answer they clicked, and record the answer in the question object as this. I
+    stopQuestionTimer()
 
     var currentCorrectAnswer = currentQuestion.correctAnswer;
 
@@ -112,11 +126,13 @@ function checkAnswer(answer, correctAnswer){
     console.log(answer, correctAnswer);
     if (answer == correctAnswer){
         isCorrect = true;
+        stopQuestionTimer();
         trackState();
         
     }
     else 
         isCorrect = false;
+        stopQuestionTimer()
         trackState();
         
     return;
@@ -152,26 +168,31 @@ function checkGameOver(){
 
 
 function gameOver (){
-    //increment the games played counter in game state, and reset all questions' is correct properties to false in case we want to play again. that way, track state won't log the wrong count.
+    //increment the games played counter in game state
     gameState.gamesPlayed ++;
-
+    gameState.currentQuestion = 0;
+    gameState.correctAnswers = 0;
 
     //show game over HTML screen in viewport
 };
 
 function sendOne() {
+    
     onAnswer(1)
 };
 
 function sendTwo() {
+    
     onAnswer(2)
 };
 
 function sendThree() {
+    
     onAnswer(3)
 };
 
 function sendFour () {
+    
     onAnswer(4)
 };
 
@@ -186,3 +207,4 @@ startGame();
 
 
 });
+
