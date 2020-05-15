@@ -24,40 +24,77 @@ var questions = [
         question: "After the British discovered oil, where did they build their refinery?",
         answers: ["Tehran", "Abadan", "Shiraz", "Tabriz"],
         correctAnswer: 2,
-        questionGif: "anglo-persian.jpg"
+        questionGif: ""
     },
 
-    // questionThree = {
+    questionThree = {
+        question: "Who was in control of the Iranian government at the time the British discovered oil?",
+        answers: ["Supreme Leader Kim Il-Sung", "Ayatollah Khomeini", "Shah Reza Pahlavi", "The Qajar Dynasty"],
+        correctAnswer: 4,
+        questionGif: ""
 
-    // },
+    },
 
-    // questionFour = {
+    questionFour = {
+        question: "Under the first concession deal, what percentage of net profits from Iranian oil production went to Britain?",
+        answers: ["50%", "25%", "72%", "84%"],
+        correctAnswer: 4,
+        questionGif: ""
 
-    // },
+
+    },
 
     // questionFive = {
+    //     question: "When the people ",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
+
 
     // },
 
     // questionSix = {
+    //     question: "",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
+
 
     // },
 
-    // questionSeven = {
+    // // questionSeven = {
+    //     question: "",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
 
-    // },
+    // // },
 
-    // questionEight = {
+    // // questionEight = {
+    //     question: "",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
 
-    // },
 
-    // questionNine = {
+    // // },
 
-    // },
+    // // questionNine = {
+    //     question: "",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
 
-    // questionTen = {
 
-    // },
+    // // },
+
+    // // questionTen = {
+    //     question: "",
+    //     answers: ["", "", "", ""],
+    //     correctAnswer: ,
+    //     questionGif: ""
+
+    // // },
 ];
 
 
@@ -110,6 +147,7 @@ function decreaseTime() {
 
 function stopQuestionTimer () {
     clearTimeout(questionTimer)
+    questionTimer = 0;
     console.log(questionTimer)
     clearInterval(int)
     console.log(int)
@@ -139,7 +177,6 @@ function checkAnswer(answer, correctAnswer){
         isCorrect = true;
         stopQuestionTimer();
         trackState();
-        
     }
     else 
         isCorrect = false;
@@ -162,7 +199,6 @@ function trackState () {
     else
         gameState.currentQuestion ++;
         isCorrect = false;
-        console.log(gameState)
         checkGameOver();
     return;
 };
@@ -179,10 +215,14 @@ function checkGameOver(){
 
 
 function gameOver (){
-    //increment the games played counter in game state
+    //increment the games played counter in game state & reset everything
     gameState.gamesPlayed ++;
     gameState.currentQuestion = 0;
     gameState.correctAnswers = 0;
+    isCorrect = false;
+    questionTimer = 0;
+    remainingTime = 20;
+    int = 0;
 
     //show game over HTML screen in viewport
 };
