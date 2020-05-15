@@ -11,3 +11,8 @@ button{
     margin: 3%;
 
 }
+
+.hide{
+    opacity: 0;
+}
+

@@ -10,6 +10,7 @@ var gameState = {
 var isCorrect = false;
 var questionTimer = 0;
 var remainingTime = 20;
+var int = 0;
 
 var questions = [
     questionOne = {
@@ -91,19 +92,29 @@ function newQuestion () {
 
 
  function startQuestionTimer () {
-    questionTimer = setTimeout (checkAnswer(null, currentQuestion.correctAnswer), 5000) //run the check answer routine if 20 seconds go by with no answer
-    setInterval(decreaseTime, 1000)
-    $("#question-timer").text(remainingTime)
-
+    questionTimer = setTimeout (onAnswer, 20000) //run the check answer routine if 20 seconds go by with no answer
+    console.log (questionTimer)
+    int = setInterval(decreaseTime, 1000)
+    console.log(int)
 };
 
 function decreaseTime() {
+    if (remainingTime > 0) {
     remainingTime--;
+    }
+    else {
+        remainingTime = 0;
+    }
+    $("#question-timer").text(remainingTime)
 }
 
 function stopQuestionTimer () {
     clearTimeout(questionTimer)
+    console.log(questionTimer)
+    clearInterval(int)
+    console.log(int)
     remainingTime = 20;
+    $("#question-timer").text(remainingTime)
 };
 
 
@@ -146,11 +157,11 @@ function trackState () {
         gameState.correctAnswers ++;
         gameState.currentQuestion ++;
         isCorrect = false;
-        console.log(gameState)
         checkGameOver();
     }
     else
         gameState.currentQuestion ++;
+        isCorrect = false;
         console.log(gameState)
         checkGameOver();
     return;
@@ -177,22 +188,18 @@ function gameOver (){
 };
 
 function sendOne() {
-    
     onAnswer(1)
 };
 
 function sendTwo() {
-    
     onAnswer(2)
 };
 
 function sendThree() {
-    
     onAnswer(3)
 };
 
 function sendFour () {
-    
     onAnswer(4)
 };
 
